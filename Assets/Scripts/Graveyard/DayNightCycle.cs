@@ -71,7 +71,8 @@ public class DayNightCycle : MonoBehaviour
 
         nightSurvived++;
         if (updateNightCountUI != null) updateNightCountUI(nightSurvived);
-        PlayerPrefs.SetInt("totalNights", totalNights + 1);
+        totalNights++;
+        PlayerPrefs.SetInt("totalNights", totalNights);
 
         if (dayStart != null) dayStart();
     }

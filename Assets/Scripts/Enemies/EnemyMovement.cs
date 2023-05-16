@@ -6,9 +6,9 @@ using static UnityEngine.GraphicsBuffer;
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] float speedBase;
-    [SerializeField] float stoppingDistance;
-    [SerializeField] float rotationSpeedAnglesPerSec;
+    [SerializeField] protected float speedBase;
+    [SerializeField] protected float stoppingDistance;
+    [SerializeField] protected float rotationSpeedAnglesPerSec;
 
     Vector3 direction;
     Quaternion targetRot;
@@ -25,17 +25,21 @@ public class EnemyMovement : MonoBehaviour
     {
         if (player != null)
         {
+            direction = player.position - transform.position;
+
+            Rotate();
             Move();
         }
     }
 
-    private void Move()
+    public virtual void Move()
     {
-        direction = player.position - transform.position;
+        RB.velocity = transform.forward * speedBase;
+    }
 
+    public virtual void Rotate()
+    {
         targetRot = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, rotationSpeedAnglesPerSec * Time.deltaTime);
-
-        RB.velocity = transform.forward * speedBase;
     }
 }
